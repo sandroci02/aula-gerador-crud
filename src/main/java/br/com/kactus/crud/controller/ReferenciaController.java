@@ -3,6 +3,8 @@ package br.com.kactus.crud.controller;
 import java.util.List;
 
 import br.com.kactus.crud.Exception.NotFoundException;
+import br.com.kactus.crud.mapper.ReferenciaMapper;
+import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
 import br.com.kactus.crud.message.ReferenciaMessage;
 import br.com.kactus.crud.model.Referencia;
 import br.com.kactus.crud.service.ReferenciaService;
@@ -24,7 +26,7 @@ public class ReferenciaController {
     private ReferenciaService service;
 
     @PostMapping("/save")
-    public ResponseEntity<ReturnData> save(@RequestBody Referencia referencia) {
+    public ResponseEntity<ReturnData> save(@RequestBody ReferenciaRepresentation referencia) {
         return ResponseEntity.ok(
                 ReturnData.builder()
                         .entidade(service.save(referencia))
@@ -33,7 +35,7 @@ public class ReferenciaController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ReturnData> update(@RequestBody Referencia referencia) throws NotFoundException {
+    public ResponseEntity<ReturnData> update(@RequestBody ReferenciaRepresentation referencia) throws NotFoundException {
         return ResponseEntity.ok(
                 ReturnData.builder()
                         .entidade(service.update(referencia))
@@ -42,7 +44,7 @@ public class ReferenciaController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Referencia> find(@PathVariable(value = "id") Long id) throws NotFoundException {
+    public ResponseEntity<ReferenciaRepresentation> find(@PathVariable(value = "id") Long id) throws NotFoundException {
         return ResponseEntity.ok(service.find(id));
     }
 
@@ -56,7 +58,7 @@ public class ReferenciaController {
     }
 
     @GetMapping("/listAll")
-    public ResponseEntity<List<Referencia>> listAll() {
+    public ResponseEntity<List<ReferenciaRepresentation>> listAll() {
         return ResponseEntity.ok(service.listAll());
     }
 
@@ -67,7 +69,7 @@ public class ReferenciaController {
         Page<Referencia> list = service.list(entrada);
         return ResponseEntity.ok(
                 PageData.builder()
-                        .lista(list.getContent())
+                        .lista(ReferenciaMapper.map(list.getContent()))
                         .paginador(new Paginador(list, entrada))
                         .build());
     }
