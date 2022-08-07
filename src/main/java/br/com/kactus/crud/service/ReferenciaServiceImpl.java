@@ -1,7 +1,9 @@
 package br.com.kactus.crud.service;
 
 import br.com.kactus.crud.Exception.NotFoundException;
+import br.com.kactus.crud.mapper.ReferenciaMapper;
 import br.com.kactus.crud.model.Referencia;
+import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
 import br.com.kactus.crud.repository.ReferenciaRepository;
 import br.com.kactus.crud.util.ParametroData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -21,34 +22,37 @@ public class ReferenciaServiceImpl implements ReferenciaService {
     private ReferenciaRepository repositorio;
 
     @Override
-    public Referencia find(Long id) throws NotFoundException {
-        Optional<Referencia> op = repositorio.findById(id);
-        if (op.isPresent()) {
-            return op.get();
-        }
-        throw new NotFoundException(MSG_ERRO_BUSCA);
+    public ReferenciaRepresentation find(Long id) throws NotFoundException {
+        return ReferenciaMapper.map(getReferencia(id));
+    }
+
+    private Referencia getReferencia(Long id) throws NotFoundException {
+        return repositorio.findById(id).orElseThrow(() -> new NotFoundException(MSG_ERRO_BUSCA));
     }
 
     @Override
-    public Referencia save(Referencia referencia) {
-        return repositorio.save(referencia);
+    public ReferenciaRepresentation save(ReferenciaRepresentation referencia) {
+        return ReferenciaMapper.map(repositorio.save(ReferenciaMapper.map(referencia)));
     }
 
     @Override
-    public Referencia update(Referencia referencia) throws NotFoundException {
-        Referencia referenciaOld = find(referencia.getId());
+    public ReferenciaRepresentation update(ReferenciaRepresentation referenciaRepresentation) throws NotFoundException {
+        Referencia referenciaOld = getReferencia(referenciaRepresentation.getId());
+
+        Referencia referencia = ReferenciaMapper.map(referenciaRepresentation);
         referencia.setVersion(referenciaOld.getVersion());
-        return repositorio.save(referencia);
+
+        return ReferenciaMapper.map(repositorio.save(referencia));
     }
 
     @Override
     public void remove(Long id) throws NotFoundException {
-        repositorio.delete(find(id));
+        repositorio.delete(getReferencia(id));
     }
 
     @Override
-    public List<Referencia> listAll() {
-        return (List<Referencia>) repositorio.findAll();
+    public List<ReferenciaRepresentation> listAll() {
+        return ReferenciaMapper.map((List<Referencia>) repositorio.findAll());
     }
 
     @Override

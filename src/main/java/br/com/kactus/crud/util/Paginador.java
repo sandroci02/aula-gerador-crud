@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 public class Paginador {
 
 	private Long total;
-	private Integer totalPages;
+	private Integer totalPaginas;
 	private List<Integer> paginas;
 	private Integer elementos;
 	private Integer pagina;
@@ -21,11 +21,11 @@ public class Paginador {
 
 	public Paginador(Page<?> lista, ParametroData entrada) {
 		this.total = lista.getTotalElements();
-		this.totalPages = lista.getTotalPages();
+		this.totalPaginas = lista.getTotalPages();
 		this.pagina = entrada.getParametroInteger("pagina");
 		this.anterior = pagina > 1 ? pagina - 1 : pagina;
-		this.proximo = pagina < totalPages ? pagina + 1 : pagina;
-		this.paginas = getPaginasOrganizadas(pagina, totalPages);
+		this.proximo = pagina < totalPaginas ? pagina + 1 : pagina;
+		this.paginas = getPaginasOrganizadas(pagina, totalPaginas);
 		this.elementos = lista.getSize();
 		this.asc =  entrada.getParametroBoolean("asc");
 		this.order = entrada.getParametro("order");
@@ -36,7 +36,7 @@ public class Paginador {
 		} else {
 			int primeiro = lista.getNumber() * lista.getSize() + 1;
 			int ultimo = primeiro + lista.getNumberOfElements() - 1;
-			this.resumo = String.format("Registros %d-%d de %d, em %d página%s", primeiro, ultimo, total, totalPages, totalPages == 1 ? "" : "s");
+			this.resumo = String.format("Registros %d-%d de %d, em %d página%s", primeiro, ultimo, total, totalPaginas, totalPaginas == 1 ? "" : "s");
 		}
 	}
 
@@ -81,12 +81,12 @@ public class Paginador {
 		this.total = total;
 	}
 
-	public Integer getTotalPages() {
-		return totalPages;
+	public Integer getTotalPaginas() {
+		return totalPaginas;
 	}
 
-	public void setTotalPages(Integer totalPages) {
-		this.totalPages = totalPages;
+	public void setTotalPaginas(Integer totalPaginas) {
+		this.totalPaginas = totalPaginas;
 	}
 
 	public List<Integer> getPaginas() {
