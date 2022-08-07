@@ -4,7 +4,7 @@ package br.com.kactus.crud.service;
 import br.com.kactus.crud.Exception.NotFoundException;
 import br.com.kactus.crud.model.Referencia;
 import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
-import br.com.kactus.crud.util.ParametroData;
+import br.com.kactus.crud.util.Parametro;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -21,5 +21,5 @@ public interface ReferenciaService {
 
     List<ReferenciaRepresentation> listAll();
 
-    Page<Referencia> list(ParametroData entrada);
+    Page<Referencia> list(Parametro entrada);
 }

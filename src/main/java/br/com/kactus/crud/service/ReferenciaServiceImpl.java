@@ -5,7 +5,7 @@ import br.com.kactus.crud.mapper.ReferenciaMapper;
 import br.com.kactus.crud.model.Referencia;
 import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
 import br.com.kactus.crud.repository.ReferenciaRepository;
-import br.com.kactus.crud.util.ParametroData;
+import br.com.kactus.crud.util.Parametro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class ReferenciaServiceImpl implements ReferenciaService {
     }
 
     @Override
-    public Page<Referencia> list(ParametroData entrada) {
+    public Page<Referencia> list(Parametro entrada) {
         return repositorio.listByPage(entrada.getPageable(), entrada.getFiltro(KEY));
     }
 }

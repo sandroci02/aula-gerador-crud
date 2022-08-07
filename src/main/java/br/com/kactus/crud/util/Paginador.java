@@ -19,16 +19,16 @@ public class Paginador {
 	private String resumo;
 	private Boolean semRegistro;
 
-	public Paginador(Page<?> lista, ParametroData entrada) {
+	public Paginador(Page<?> lista, Parametro entrada) {
 		this.total = lista.getTotalElements();
 		this.totalPaginas = lista.getTotalPages();
-		this.pagina = entrada.getParametroInteger("pagina");
+		this.pagina = entrada.getPagina();
 		this.anterior = pagina > 1 ? pagina - 1 : pagina;
 		this.proximo = pagina < totalPaginas ? pagina + 1 : pagina;
 		this.paginas = getPaginasOrganizadas(pagina, totalPaginas);
 		this.elementos = lista.getSize();
-		this.asc =  entrada.getParametroBoolean("asc");
-		this.order = entrada.getParametro("order");
+		this.asc =  "ASC".equalsIgnoreCase(entrada.getSentidoOrdenacao());
+		this.order = entrada.getOrdenacaoPor();
 
 		this.semRegistro = total == 0;
 		if (semRegistro) {

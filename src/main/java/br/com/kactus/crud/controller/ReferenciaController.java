@@ -1,22 +1,21 @@
 package br.com.kactus.crud.controller;
 
-import java.util.List;
-
 import br.com.kactus.crud.Exception.NotFoundException;
 import br.com.kactus.crud.mapper.ReferenciaMapper;
-import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
 import br.com.kactus.crud.message.ReferenciaMessage;
 import br.com.kactus.crud.model.Referencia;
+import br.com.kactus.crud.model.representation.ReferenciaRepresentation;
 import br.com.kactus.crud.service.ReferenciaService;
 import br.com.kactus.crud.util.PageData;
 import br.com.kactus.crud.util.Paginador;
-import br.com.kactus.crud.util.ParametroData;
+import br.com.kactus.crud.util.Parametro;
 import br.com.kactus.crud.util.ReturnData;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -65,7 +64,7 @@ public class ReferenciaController {
 
     //@CrossOrigin
     @PostMapping("/list")
-    public ResponseEntity<PageData> list(@RequestBody ParametroData entrada) {
+    public ResponseEntity<PageData> list(@RequestBody Parametro entrada) {
         Page<Referencia> list = service.list(entrada);
         return ResponseEntity.ok(
                 PageData.builder()
